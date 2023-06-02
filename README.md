@@ -11,6 +11,7 @@ PixelWise is an AI image generator creaded using MERN Stack and OpenAI API amd s
   <li>Mongoose.js is used to establish a connection between Node.js and MongoDB Atlas.</li>
   <li>React.js is used to create the Frontend using Components.</li>
   <li>I have used the OpenAI API from which random images are generated according the statement writen in the prompt.</li>
+  <li> Cloudinary Cloud storage is used to store the images and share them with the community.</li>
  </ul>
  
  ## FEATURES IMPLEMENTED IN THE PROJECT
