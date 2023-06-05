@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Card, FormField, Loader } from '../components';
 
+//helps in rendering the card components according to the searched text given
 const RenderCards = ({ data, title }) => {
   if (data?.length > 0) {
     return (
@@ -81,24 +82,24 @@ const Home = () => {
       </div>
 
       <div className="mt-10">
-        {loading ? (
+        {loading ? (     // if loading  then the loader will be used
           <div className="flex justify-center items-center">
             <Loader />
           </div>
         ) : (
-          <>
-            {searchText && (
+          <>           
+            {searchText && (       //if not loading then we will see if any search text is given
               <h2 className="font-medium text-[#666e75] text-xl mb-3">
                 Showing Resuls for <span className="text-[#222328]">{searchText}</span>:
               </h2>
             )}
             <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
-              {searchText ? (
+              {searchText ? (    // if search text is given show only searched Postss
                 <RenderCards
                   data={searchedResults}
                   title="No Search Results Found"
                 />
-              ) : (
+              ) : (           // if not given then show all posts
                 <RenderCards
                   data={allPosts}
                   title="No Posts Yet"

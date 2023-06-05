@@ -2,14 +2,14 @@
 /* eslint-disable no-unused-vars */
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // it is a hook
 
 import { preview } from "../assets";
-import { getRandomPrompt } from "../utils";
+import { getRandomPrompt } from "../utils"; // when we click suprise me button we will get random prompts
 import { FormField, Loader } from "../components";
 
 const CreatePost = () => {
-	const navigate = useNavigate(); // allows to navigate back to the whole page once post is created
+	const navigate = useNavigate(); // allows to navigate back to the whole page once post is created ....when we generate an image and share with community we will be redirected to the homepage
 	const [form, setForm] = useState({
 		name: "", // object conatining these properties
 		prompt: "",
@@ -18,20 +18,23 @@ const CreatePost = () => {
 	//Here we will use two hooks
 	//first:this is used while we are making contact with api and while we are waiting to get back the image
 	const [generatingImg, setGeneratingImg] = useState(false);
-	//second: this ise used for the generall loading
-	const [loading, setLoading] = useState(false);
+	//second: this is used for the generall loading
+	const [loading, setLoading] = useState(false); //loader component is used here
 
 	const generateImage = async () => {
 		if (form.prompt) {
 			try {
 				setGeneratingImg(true);
-				const response = await fetch("https://piexelwise.onrender.com/api/v1/pixelwise", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ prompt: form.prompt }),
-				});
+				const response = await fetch(
+					`${import.meta.env.VITE_BACKEND_URL}/api/v1/pixelwise`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ prompt: form.prompt }),
+					}
+				);
 				const data = await response.json();
 
 				setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
@@ -47,30 +50,34 @@ const CreatePost = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-	
+
 		if (form.prompt && form.photo) {
-		  setLoading(true);
-		  try {
-			const response = await fetch('https://piexelwise.onrender.com/api/v1/post', {
-			  method: 'POST',
-			  headers: {
-				'Content-Type': 'application/json',
-			  },
-			  body: JSON.stringify({ ...form }),
-			});
-	
-			await response.json();
-			alert('Success');
-			navigate('/');
-		  } catch (err) {
-			alert(err);
-		  } finally {
-			setLoading(false);
-		  }
+			console.log(form.photo);
+			setLoading(true);
+			try {
+				const response = await fetch(
+					`${import.meta.env.VITE_BACKEND_URL}/api/v1/post`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ ...form }),
+					}
+				);
+
+				await response.json();
+				alert("Success");
+				navigate("/"); // if we share the image with the community and it's a success then we will navigate back to the homepage with the help of usenavigate hook
+			} catch (err) {
+				alert(err);
+			} finally {
+				setLoading(false);
+			}
 		} else {
-		  alert('Please generate an image with proper details');
+			alert("Please generate an image with proper details");
 		}
-	  }; 
+	};
 
 	const handleChange = (e) => {
 		//firstly make sure that we can actually type values in our form field using this function
@@ -93,7 +100,7 @@ const CreatePost = () => {
 			</div>
 			<form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
 				<div className="flex flex-col gap-5">
-					<FormField
+					<FormField // this is an input box where we pass our all the props
 						labelName="Your Name"
 						type="text"
 						name="name"
@@ -115,14 +122,14 @@ const CreatePost = () => {
 
 					{/* here will be th place where ai generated image will be shown and preview of the image incase it has already be genegerated*/}
 					<div className="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex justify-center items-center">
-						{form.photo ? (
+						{form.photo ? ( // if photo is present then imagw will be shown
 							<img
 								src={form.photo}
 								alt={form.prompt}
 								className="w-full h-full object-contain"
 							/>
 						) : (
-							<img
+							<img // otherwise preview image will be displayed
 								src={preview}
 								alt="preview"
 								className="w-9/12 h-9/12 object-contain opacity-40"

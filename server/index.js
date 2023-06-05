@@ -22,7 +22,9 @@ const startServer = async () => {
 	try {
 		connectDB(process.env.MONGODB_URL);
 		app.listen(process.env.PORT, () =>
-			console.log("server has started on port http://localhost:8080")
+			console.log(
+				`server has started on port ${import.meta.env.VITE_BACKEND_URL}`
+			)
 		);
 	} catch (error) {
 		console.log(error);
