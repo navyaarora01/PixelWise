@@ -8,7 +8,7 @@ import pixelwiseRoutes from "./routes/pixelwiseRoutes.js";
 
 dotenv.config(); //this line allows us to pull our envirnment variables form our dotenv file
 const app = express(); //express application
-app.use(cors()); //middleware
+app.use(cors({ allow: "*" })); //middleware
 app.use(express.json({ limit: "50mb" }));
 
 app.use("/api/v1/post", postRoutes);
