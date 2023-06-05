@@ -22,6 +22,7 @@ const CreatePost = () => {
 	const [loading, setLoading] = useState(false); //loader component is used here
 
 	const generateImage = async () => {
+		console.log(import.meta.env.VITE_BACKEND_URL);
 		if (form.prompt) {
 			try {
 				setGeneratingImg(true);

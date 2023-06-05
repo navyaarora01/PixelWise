@@ -21,11 +21,7 @@ app.get("/", async (req, res) => {
 const startServer = async () => {
 	try {
 		connectDB(process.env.MONGODB_URL);
-		app.listen(process.env.PORT, () =>
-			console.log(
-				`server has started on port ${import.meta.env.VITE_BACKEND_URL}`
-			)
-		);
+		app.listen(process.env.PORT, () => console.log(`server has started`));
 	} catch (error) {
 		console.log(error);
 	}
