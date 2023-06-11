@@ -1,6 +1,6 @@
 import express from "express";
 import * as dotenv from 'dotenv';
-import {v2 as cloudinary} from 'cloudinary';
+import {v2 as cloudinary} from 'cloudinary'; //this is the home page so cloudinary is used to store the images
 
 import Post from '../mongodb/models/post.js';
 
@@ -15,7 +15,7 @@ cloudinary.config({
 });
 
 //GET ALL POSTS
-router.route('/').get(async (req, res) => {
+router.route('/').get(async (req, res) => {  //route for showing all the image
     try {
       const posts = await Post.find({});
       res.status(200).json({ success: true, data: posts });
@@ -25,10 +25,10 @@ router.route('/').get(async (req, res) => {
   });
 
 //CREATE A POST
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req, res) => {  //uploading and posting the single image
 try {
-    const { name, prompt, photo } = req.body;
-    const photoUrl = await cloudinary.uploader.upload(photo);
+    const { name, prompt, photo } = req.body;   // data getting from frontend
+    const photoUrl = await cloudinary.uploader.upload(photo); //we are getting data from frontend we are uploading it to the cloudinary and then cloudinary is optimizing the url 
 
     const newPost = await Post.create({
     name,

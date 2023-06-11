@@ -21,13 +21,13 @@ const CreatePost = () => {
 	//second: this is used for the generall loading
 	const [loading, setLoading] = useState(false); //loader component is used here
 
-	const generateImage = async () => {
-		console.log(import.meta.env.VITE_BACKEND_URL);
+	const generateImage = async () => {  //connecting with the backend   
+		console.log(import.meta.env.VITE_BACKEND_URL); // this func helps in generating the image and showing it on  createpost pafe 
 		if (form.prompt) {
 			try {
 				setGeneratingImg(true);
 				const response = await fetch(
-					`${import.meta.env.VITE_BACKEND_URL}/api/v1/pixelwise`,
+					`${import.meta.env.VITE_BACKEND_URL}/api/v1/pixelwise`,    //fetching the api from backend
 					{
 						method: "POST",
 						headers: {
@@ -49,10 +49,10 @@ const CreatePost = () => {
 		}
 	};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+	const handleSubmit = async (e) => {  //this funcn helps to share with the community
+		e.preventDefault(); //broswer doesnot reload the application after submitting
 
-		if (form.prompt && form.photo) {
+		if (form.prompt && form.photo) {  //prompt and photo exist
 			console.log(form.photo);
 			setLoading(true);
 			try {
@@ -82,12 +82,12 @@ const CreatePost = () => {
 
 	const handleChange = (e) => {
 		//firstly make sure that we can actually type values in our form field using this function
-		setForm({ ...form, [e.target.name]: e.target.value });
+		setForm({ ...form, [e.target.name]: e.target.value });    //we used the spread operator to spread out the form values then we updated name value
 	};
 	const handleSurpriseMe = () => {
 		//this function will be used to call our utility function to ensure that we always get a prompt
 		const randomPrompt = getRandomPrompt(form.prompt);
-		setForm({ ...form, prompt: randomPrompt });
+		setForm({ ...form, prompt: randomPrompt });        //we used the spread operator to spread out the form values then we updated prompt value
 	};
 
 	return (
